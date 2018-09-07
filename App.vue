@@ -1,8 +1,12 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/wow.png">
-    <HelloWorld msg="Welcome to Your Vue.js Application"/>
-    <div class="">A custom component! {{name}}</div>
+    <HelloWorld msg="Welcome to the Voting Application"/>
+    <div>
+      <ul>
+        <li v-for="(framework, index) in frameworks" :key='index' >{{framework.name}} has - {{framework.votes}} votes</li>
+      </ul>
+    </div>
   </div>
 
 </template>
@@ -18,7 +22,12 @@ export default {
   },
   data(){
     return {
-      name : 'divyanshu'
+      name : 'divyanshu',
+      frameworks: [
+        { name: 'Vue.js', votes: 0 },
+        { name: 'React', votes: 0 },
+        { name: 'Angular', votes: 0 }
+    ]
     }
   }
 }
@@ -43,7 +52,6 @@ input:focus { outline: unset; }
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
   margin-top: 60px;
 }
