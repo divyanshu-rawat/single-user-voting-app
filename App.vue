@@ -9,12 +9,18 @@
         {{framework.name}} has - {{framework.votes}} votes
 
         <button v-on:click = "voteFor(framework)">UpVote</button>
-        <button v-on:click = "remove(framework)">Delete</button>
+        <button v-on:click = "remove(framework)" v-if = "editMode">Delete</button>
 
       </li>
       </ul>
 
-      Add New Framework: <input placeholder="Add new Framework" v-on:keyup.enter="addNew">
+      <button v-on:click = "toggleEditMode" >{{editMode ? 'Done' : 'Edit' }}</button>
+      
+      <div class="margin">
+        <input v-if="editMode" placeholder="Add new Framework" v-on:keyup.enter="addNew">
+      </div>
+
+      <p class="margin">Current Winner(s): {{winnerString}}</p>
 
     </div>
 
@@ -34,6 +40,7 @@ export default {
   data(){
     return {
       name : 'divyanshu',
+      editMode: false,
       frameworks: [
         { name: 'Vue.js', votes: 0 },
         { name: 'React', votes: 0 },
@@ -43,7 +50,8 @@ export default {
   },
   methods: {
        voteFor: function(f) {
-          f.votes += 1
+          f.votes += 1;
+          this.computecurrentWinner()
         },
         addNew: function (e) {
           this.frameworks.push(
@@ -67,10 +75,24 @@ export default {
             let data = JSON.stringify(this.frameworks)
             localStorage.setItem('saved', data)
           },
+
+         toggleEditMode: function() {
+            this.editMode = !this.editMode
+          }
     },
+      computed: {
+        winnerString: function() {
+          let scores = this.frameworks.map(f => f.votes)
+          let highscore = Math.max.apply(Math, scores)
+          let bestList = this.frameworks.filter(f => f.votes == highscore)
+
+          let bestNames = bestList.map(f => f.name)
+          return bestNames.join(', ')
+        }
+      },
+
      created: function() {
        this.load();
-       console.log('created');
     }
 }
 
@@ -93,6 +115,10 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#margin{
+  margin-top: 5px;
 }
 
 
