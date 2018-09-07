@@ -9,9 +9,13 @@
         {{framework.name}} has - {{framework.votes}} votes
 
         <button v-on:click = "voteFor(framework)">UpVote</button>
+        <button v-on:click = "remove(framework)">Delete</button>
 
       </li>
       </ul>
+
+      Add New Framework: <input placeholder="Add new Framework" v-on:keyup.enter="addNew">
+
     </div>
 
   </div>
@@ -40,6 +44,15 @@ export default {
   methods: {
        voteFor: function(f) {
           f.votes += 1
+        },
+        addNew: function (e) {
+          this.frameworks.push(
+            {name: e.target.value, votes: 0}
+          )
+          e.target.value = ''
+        },
+        remove: function (f) {
+          this.frameworks = this.frameworks.filter( x => x != f)
         }
     }
 }
@@ -51,9 +64,6 @@ export default {
 <style>
 
 * { color: inherit; }
-
-input { font: inherit; border: unset; background: unset; }
-input:focus { outline: unset; }
 
 :root {
   font: 1rem/1.175 "BlinkMacSystemFont", -apple-system, "Roboto", sans-seri;
