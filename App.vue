@@ -49,11 +49,28 @@ export default {
           this.frameworks.push(
             {name: e.target.value, votes: 0}
           )
-          e.target.value = ''
+          e.target.value = '';
+          this.save();
         },
         remove: function (f) {
           this.frameworks = this.frameworks.filter( x => x != f)
-        }
+          this.save();
+        },
+        load: function() {
+
+           let data = localStorage.getItem('saved');
+            if (data) {
+              this.frameworks = JSON.parse(data)
+            }
+          },
+         save: function() {
+            let data = JSON.stringify(this.frameworks)
+            localStorage.setItem('saved', data)
+          },
+    },
+     created: function() {
+       this.load();
+       console.log('created');
     }
 }
 
