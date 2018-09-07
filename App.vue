@@ -4,9 +4,16 @@
     <HelloWorld msg="Welcome to the Voting Application"/>
     <div>
       <ul>
-        <li v-for="(framework, index) in frameworks" :key='index' >{{framework.name}} has - {{framework.votes}} votes</li>
+        <li v-for="(framework, index) in frameworks" :key='index' >
+
+        {{framework.name}} has - {{framework.votes}} votes
+
+        <button v-on:click = "voteFor(framework)">UpVote</button>
+
+      </li>
       </ul>
     </div>
+
   </div>
 
 </template>
@@ -29,7 +36,12 @@ export default {
         { name: 'Angular', votes: 0 }
     ]
     }
-  }
+  },
+  methods: {
+       voteFor: function(f) {
+          f.votes += 1
+        }
+    }
 }
 
 
